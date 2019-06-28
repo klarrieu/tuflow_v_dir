@@ -7,7 +7,7 @@ This script works on Windows machines with a standard installation of Python. It
 
 1. Download or clone this repository.
 2. Run the `extract_vdir.py` script. This will open a GUI.
-3. Use the GUI to select the directory containing the target Tuflow run results, e.g. for Tuflow run number `21` the `\results\21\` directory should be selected.
+3. Use the GUI to select the directory containing the target Tuflow run results, e.g. for Tuflow run number `21` the `\results\21\` directory should be selected. (One velocity direction raster is produced for each subdirectory/discharge scenario in the selected directory, using the last timestep of each run.)
 4. Press the big button (`Create Velocity Direction Rasters`) and be patient.
 
 ## Outputs
