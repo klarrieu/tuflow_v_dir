@@ -61,6 +61,8 @@ def extract_vdirs(model_results_path):
                 os.system("%s -b -asc %s -out %s" % (t2g_path, in_va, out_file_name))
                 logging.info(">>> OK.")
 
+    logging.info(">>> Finished! :)")
+
 
 # opens window in GUI to browse for folder or file
 def browse(root, entry, select='file', ftypes=[('All files', '*')]):
