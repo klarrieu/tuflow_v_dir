@@ -8,11 +8,11 @@ def extract_vdirs(model_results_path):
     """
     Extracts velocity direction rasters from Tuflow output data.
     Output rasters are saved in this script directory in ASCII format.
-    Velocities in degrees from North: e.g. North = 0, East=90, West=-90, South=180/-180
+    Velocity direction in degrees from North: e.g. North = 0, East=90, West=-90, South=180/-180
     """
     script_dir = os.path.dirname(__file__)
     r2r_path = os.path.join(script_dir, "res_to_res\\res_to_res_w64.exe")
-    t2g_path = os.path.join(script_dir, "\\tuflow_to_gis\\TUFLOW_to_GIS_w64.exe")
+    t2g_path = os.path.join(script_dir, "tuflow_to_gis\\TUFLOW_to_GIS_w64.exe")
 
     for run in os.listdir(model_results_path):
         run_dir = os.path.join(model_results_path, run)
@@ -22,11 +22,11 @@ def extract_vdirs(model_results_path):
                 out_file_name = run_file.replace(".xmdf", "_V_dir")
                 data_path = os.path.join(run_dir, run_file)
 
-                logging.info("\n\t>>> Converting:")
+                logging.info(">>> Converting:")
                 logging.info("\t>>> Input: %s" % data_path)
                 logging.info("\t>>> Output: %s\n" % out_file_name)
 
-                logging.info("\n\t>>> Getting timesteps...")
+                logging.info(">>> Getting timesteps...")
                 # -times: get times
                 os.system("%s -b -times -typeV %s" % (r2r_path, data_path))
                 # determine final timestep value
@@ -34,30 +34,32 @@ def extract_vdirs(model_results_path):
                     content = f.readlines()
                     times = [float(val) for val in content]
                     max_time = max(times)
-                logging.info("\n\t>>> OK.\n\t>>> Using final time t=%s" % str(max_time))
+                logging.info(">>> OK.\n>>> Using final time t=%s" % str(max_time))
 
-                logging.info("\n\t>>> Extracting velocity data from .xmdf, converting to .dat...")
+                logging.info(">>> Extracting velocity data from .xmdf, converting to .dat...")
                 # -conv: convert to .dat
                 os.system("%s -b -typeV -conv %s" % (r2r_path, data_path))
-                logging.info("\n\t>>> OK.")
+                logging.info(">>> OK.")
 
-                logging.info("\n\t>>> Extracting vector angles at time %s..." % str(max_time))
+                logging.info(">>> Extracting vector angles at time %s..." % str(max_time))
                 # -va: get vector angles
                 in_v_dat = os.path.join(run_dir, run_file.replace(".xmdf", "_v.dat"))
                 os.system("%s -b -va -t%s %s" % (r2r_path, str(max_time), in_v_dat))
-                logging.info("\n\t>>> OK.")
+                logging.info(">>> OK.")
 
-                logging.info("\n\t>>> Copying .2dm data...")
+                logging.info(">>> Copying .2dm data...")
                 # make copy of .2dm to match velocity data name so SMS can find it
                 path_2_2dm = data_path.replace(".xmdf", ".2dm")
-                shutil.copy(path_2_2dm, path_2_2dm.replace(".2dm", "_v.2dm"))
-                logging.info("\n\t>>> OK.")
+                copy_2dm = path_2_2dm.replace(".2dm", "_v.2dm")
+                if not os.path.exists(copy_2dm):
+                    shutil.copy(path_2_2dm, copy_2dm)
+                logging.info(">>> OK.")
 
-                logging.info("\n\t>>> Converting to ASCII output...")
+                logging.info(">>> Converting to ASCII output...")
                 # -asc: convert to ascii data
                 in_va = os.path.join(run_dir, run_file.replace(".xmdf", "_v_va.dat"))
                 os.system("%s -b -asc %s -out %s" % (t2g_path, in_va, out_file_name))
-                logging.info("\n\t>>> OK.")
+                logging.info(">>> OK.")
 
 
 # opens window in GUI to browse for folder or file
