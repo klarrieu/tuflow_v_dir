@@ -1,4 +1,4 @@
-# Extract Velocity Direction Rasters from Tuflow Output Rasters
+# Extract Velocity Direction Rasters from Tuflow Output
 Extracts direction of velocity vectors from Tuflow outputs.
 
 This script works on Windows machines with a standard installation of Python. It utilizes [executable Tuflow utilities `RES_to_RES` and `TUFLOW_to_GIS`](https://www.tuflow.com/FV%20All%20Download.aspx).
