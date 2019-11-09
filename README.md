@@ -15,3 +15,19 @@ This script works on Windows machines with a standard installation of Python. It
 Output rasters are saved to the same directory as the `extract_vdir.py` script in the ASCII format, using the same name convention as the corresponding Tuflow run with a suffix `_V_dir.asc`.
 
 **Note**: Velocity direction in degrees from North: e.g. North = 0, East=90, West=-90, South=180/-180.
+
+## Viewing Velocity Vectors in ArcGIS Pro
+
+https://pro.arcgis.com/en/pro-app/help/data/imagery/vector-field-function.htm
+
+ArcGIS Pro -> Imagery tab -> Raster Functions -> Raster Functions (opens on the right) -> Conversion -> Vector Field
+
+Select:
+
+Raster 1 = magnitude, Raster 2 = direction
+
+Input Data Type = Magnitude-Direction-Input
+
+Angular Reference System = Geographic
+
+Output Data Type = whatever is suitable
